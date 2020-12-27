@@ -23,7 +23,7 @@ void uputint(int value);
 void uputclose(void);
 void uputkill(void);
 void ugetinit(const char *path);
-int ugetint(void);
+int ugetint(bool);
 int ugeteof(void);
 void ugetclose(void);
 

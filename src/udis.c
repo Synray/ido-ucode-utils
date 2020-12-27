@@ -66,7 +66,14 @@ char dtype_name(enum Datatype type)
 void print_dtype(enum Datatype type)
 {
     char dt = dtype_name(type);
-    printf("%cdt ", dt);
+    switch (dt)
+    {
+        case 'I': printf("s64 ");       break;
+        case 'J': printf("s32 ");       break;
+        case 'K': printf("u64 ");       break;
+        case 'L': printf("u32 ");       break;
+        default:  printf("%cdt ", dt);  break;
+    }
     if (dt == 'U') printf ("(%hhu) ", type);
 }
 

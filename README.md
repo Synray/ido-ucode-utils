@@ -1,7 +1,5 @@
 # IDO Ucode Disassembler
 
-**Requires qemu-mips and mips-linux-gnu-gcc to compile and run.**
-
 Converts the bytecode output from IDO (5.3 and 7.1) `cfe` and `uopt` into a human-readable format.
 
 The majority of the source code for this project is copied from the IDO decompilation at [n64decomp/ido](https://github.com/n64decomp/ido).
@@ -48,8 +46,8 @@ qemu-irix -L tools/ido5.3_compiler/ tools/ido5.3_compiler/usr/lib/uopt -v -G 0 -
 Then to disassemble, run `udis`:
 
 ```bash
-qemu-mips -L /usr/mips-linux-gnu/ build/udis uopt_out > uopt_ucode
-qemu-mips -L /usr/mips-linux-gnu/ build/udis cfe_out > cfe_ucode
+build/udis uopt_out > uopt_ucode
+build/udis cfe_out > cfe_ucode
 ```
 ## Example Output
 

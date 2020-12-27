@@ -96,13 +96,13 @@ void readuinstr(union Bcode *bcode, char *ustr) {
         return;
     }
 
-    bcode->intarray[0] = ugetint();
-    bcode->intarray[1] = ugetint();
+    bcode->intarray[0] = ugetint(true);
+    bcode->intarray[1] = ugetint(true);
     urec = utab[uinstr->Opc];
     instlength = urec.instlength;
     for (i = 2; i < instlength; i += 2) {
-        bcode->intarray[i] = ugetint();
-        bcode->intarray[i + 1] = ugetint();
+        bcode->intarray[i] = ugetint(true);
+        bcode->intarray[i + 1] = ugetint(true);
     }
     
 #if 0
@@ -160,8 +160,8 @@ void readuinstr(union Bcode *bcode, char *ustr) {
 #endif
 
     if (urec.hasconst) {
-        bcode->intarray[instlength] = ugetint();
-        bcode->intarray[instlength + 1] = ugetint();
+        bcode->intarray[instlength] = ugetint(true);
+        bcode->intarray[instlength + 1] = ugetint(true);
          
 #if 0
         printf("- const: %d %d ", bcode->intarray[instlength], bcode->intarray[instlength + 1]);
@@ -173,8 +173,8 @@ void readuinstr(union Bcode *bcode, char *ustr) {
                 strlength++;
             }
             for (i = 0; i < strlength; i += 2) {
-                ((int *)ustr)[i] = ugetint();
-                ((int *)ustr)[i + 1] = ugetint();
+                ((int *)ustr)[i] = ugetint(false);
+                ((int *)ustr)[i + 1] = ugetint(false);
             }
             if ((1 << uinstr->Dtype) & ((1 << Qdt) | (1 << Rdt))) {
                 if (uinstr->Opc != Uinit) {

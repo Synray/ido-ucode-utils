@@ -153,24 +153,26 @@
 
 
   enum
-  Datatype  {Adt,                       /* address (pointer)                 */
-      Cdt,                              /* pointer to readonly data          */
-      Fdt,                              /* C pointer to function             */
-      Gdt,                              /* address of label                  */
-      Hdt,                              /* address that only points to heap  */
-      Idt,                              /* integer, double word              */
-      Jdt,                              /* integer, single word              */
-      Kdt,                              /* unsigned integer, double word     */
-      Ldt,                              /* non-negative integer, single word */
-      Mdt,                              /* array or record                   */
-      Ndt,                              /* non-local labels                  */
-      Pdt,                              /* procedure, untyped                */
-      Qdt,                              /* real, double word                 */
-      Rdt,                              /* real, single word                 */
-      Sdt,                              /* set                               */
-      Wdt,                              /* 64 bit wide pointer               */
-      Xdt,                              /* extended precision                */
-      Zdt}                              /* undefined                         */
+  Datatype  {
+      Adt, /* address (pointer)                 */
+      Cdt, /* pointer to readonly data          */
+      Fdt, /* C pointer to function             */
+      Gdt, /* address of label                  */
+      Hdt, /* address that only points to heap  */
+      Idt, /* integer, double word              */
+      Jdt, /* integer, single word              */
+      Kdt, /* unsigned integer, double word     */
+      Ldt, /* non-negative integer, single word */
+      Mdt, /* array or record                   */
+      Ndt, /* non-local labels                  */
+      Pdt, /* procedure, untyped                */
+      Qdt, /* real, double word                 */
+      Rdt, /* real, single word                 */
+      Sdt, /* set                               */
+      Wdt, /* 64 bit wide pointer               */
+      Xdt, /* extended precision                */
+      Zdt, /* undefined                         */
+  }
 #ifdef __GNUC__
 __attribute__((packed))
 #endif
@@ -260,18 +262,34 @@ typedef unsigned char Uopcode;
 #endif
 
 struct Bcrec   {
+#ifndef LE
           Uopcode Opc;
           unsigned char  Mtype :3;
           unsigned char  Dtype :5;
           unsigned short  Lexlev;
+#else
+          unsigned short Lexlev;
+          unsigned char  Dtype :5;
+          unsigned char  Mtype :3;
+          Uopcode Opc;
+#endif
           int  I1;
           /* ------- 2 words ------- */
           union {
             struct {
+#ifndef LE
               enum Datatype Dtype2:8; unsigned :24;
+#else
+              unsigned :24; enum Datatype Dtype2:8;
+#endif
             }secondty;
             struct {
+#ifndef LE
                unsigned int Pop :8, Push :8;
+#else
+               unsigned int pad :16;
+               unsigned int Push :8, Pop :8;
+#endif
                unsigned int Extrnal;
             }uent;
             struct {

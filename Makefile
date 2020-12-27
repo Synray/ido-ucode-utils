@@ -2,8 +2,16 @@ default: all
 
 SRC_DIRS := . src src/libp
 
+ENDIAN ?= little
+
+ifeq ($(ENDIAN),little)
+CC := gcc
+CFLAGS := -fPIC -I src -ggdb3 -Wall -O2 -flto -DLE
+LDFLAGS := -ggdb3 -O2 -flto
+else
 CC := mips-linux-gnu-gcc
 CFLAGS := -fPIC -I src -mips2 -mfp32 -ggdb3 -Wall -O2
+endif
 
 BUILD_DIR := build
 ALL_DIRS := $(addprefix $(BUILD_DIR)/,$(SRC_DIRS))
