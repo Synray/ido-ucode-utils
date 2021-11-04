@@ -5,6 +5,8 @@
 #include <fcntl.h>
 #include <stdbool.h>
 
+#include "common.h"
+
 /*
 100118F0 D_100118F0
 */
@@ -201,8 +203,9 @@ void ugetbufinit(int *buf, int len_bytes) {
 00487848 ugeteof
 00487B7C readuinstr
 */
-int ugetint(bool reversed) {
+int ugetint(bool swap) {
     int nread;
+    int out;
 
     if (ugetfd < 0) {
         fprintf(stderr, "uget: input file not initialized\n");
@@ -234,19 +237,14 @@ int ugetint(bool reversed) {
         ugetpos = 0;
     }
 
-    int in = ugetbufp[ugetpos++];
-
     // Most data should be converted to little endian, except for strings
-    if (reversed) {
-        unsigned char b0 = in & 0xff;
-        unsigned char b1 = (in >>  8) & 0xff;
-        unsigned char b2 = (in >> 16) & 0xff;
-        unsigned char b3 = (in >> 24) & 0xff;
-        int out = ((int)b0 << 24) + ((int)b1 << 16) + ((int)b2 << 8) + b3;
-        return out;
-    } else {
-        return in;
+    out = ugetbufp[ugetpos++];
+#ifdef LE
+    if (swap) {
+        out = swap_word(out);
     }
+#endif
+    return out;
 }
 
 /*

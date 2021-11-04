@@ -25,5 +25,14 @@ typedef unsigned char bool;
 //#define GETBIT32(value, index) ((int)(((unsigned int)(value) & -((unsigned int)(index) < 32)) << ((index) & 31)) < 0)
 #define GETBIT32(value, index) ((unsigned int)(index) < 32 && ((value) & (1U << (31 - (index)))))
 
-#endif
+/*
+ * Byte swaps for word and half words.
+ */
+#define swap_word(a) ( ((a) << 24) | \
+		      (((a) << 8) & 0x00ff0000) | \
+		      (((a) >> 8) & 0x0000ff00) | \
+	((unsigned int)(a) >>24) )
 
+#define swap_half(a) ( ((a & 0xff) << 8) | ((unsigned short)(a) >> 8) )
+
+#endif

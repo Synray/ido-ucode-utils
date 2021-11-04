@@ -196,6 +196,15 @@ void readuinstr(union Bcode *bcode, char *ustr) {
 #if 0
     puts("");
 #endif
+
+    // swap 64 bit field again
+    if (instlength == 8) {
+        uinstr->Uopcde.uiequ1.uop2.uxjp.dwbnds.lbound = ((long long)uinstr->Uopcde.uiequ1.uop2.uxjp.swbnds.lbound_h << 32) |
+                                                                    uinstr->Uopcde.uiequ1.uop2.uxjp.swbnds.lbound_l;
+        uinstr->Uopcde.uiequ1.uop2.uxjp.dwbnds.hbound = ((long long)uinstr->Uopcde.uiequ1.uop2.uxjp.swbnds.hbound_h << 32) |
+                                                                    uinstr->Uopcde.uiequ1.uop2.uxjp.swbnds.hbound_l;
+    }
+
 }
 
 

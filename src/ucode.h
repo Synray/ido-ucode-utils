@@ -195,7 +195,7 @@ Memtype
       Amt,                              /* Parameter build area              */
       Tmt,                              /* used internally by ugen           */
       Kmt                               /* static class data member in C++   */
- } ;
+ } __attribute__((packed));
 
 
 
@@ -246,7 +246,7 @@ enum
         Utpeq,  Utpge,  Utpgt,  Utple,  Utplt,  Utpne,  Utyp,   Uubd,
         Uujp,   Uunal,  Uuni,   Uvreg,  Uxjp,   Uxor,   Uxpar,  Umtag,
         Ualia,  Uildi,  Uisti,  Uirld,  Uirst,  Uldrc,  Umsym,  Urcuf,
-        Uksym,  Uosym,  Uirlv,  Uirsv}
+        Uksym,  Uosym,  Uirlv,  Uirsv, UopcodeMax}
 #ifdef __GNUC__
 __attribute__((packed))
 #endif
