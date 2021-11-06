@@ -46,8 +46,8 @@ qemu-irix -L tools/ido5.3_compiler/ tools/ido5.3_compiler/usr/lib/uopt -v -G 0 -
 Then to disassemble, run `udis`:
 
 ```bash
-build/udis uopt_out > uopt_ucode
-build/udis cfe_out > cfe_ucode
+build/udis uopt_out > uopt_ucode.u
+build/udis cfe_out > cfe_ucode.u
 ```
 ## Example Output
 
@@ -84,3 +84,13 @@ fjp  lab1 382 lexlev 0
 loc  page 2 line 3013 
 /* ... */
 ```
+
+# Ucode syntax highlighting (vim / neovim)
+
+![Syntax Highlighting](/screenshots/syntax1.png)
+
+Intall this repo with a plugin manager, or copy the `syntax` and `ftdetect` directories into `.vim`.
+
+The ftdetect script will detect any file name ending in `.u`, `.U`, or `.ucode` as a `ucode` file.
+
+
