@@ -14,6 +14,15 @@ union Bcode u;
  * print functions for opcodes with unique output
  *******************************************************/
 
+void print_ucode_attr() {
+    if (IS_VOLATILE_ATTR(LEXLEV)) {
+        printf("vol ");
+    }
+    if (IS_OVERFLOW_ATTR(LEXLEV)) {
+        printf("ovf ");
+    }
+}
+
 bool print_uregs() {
     print_ione(IONE);
     int next = 1;
@@ -103,6 +112,17 @@ bool print_ilodistr() {
     return true;
 }
 
+bool print_mov() {
+    print_dtype(DTYPE);
+    print_lexlev(LEXLEV & ~0x7);
+    print_ione(IONE);
+    printf("len %d ", LENGTH);
+
+    // Mov is the only opcode that uses Lexlev for two purposes: alignment and v/o attrs
+    print_ucode_attr();
+    return true;
+}
+
 bool print_cvtl() {
     print_small_dtype(DTYPE, IONE);
     return true;
@@ -119,6 +139,7 @@ static bool (*print_function[UopcodeMax])() = {
     [Uistr] = print_ilodistr,
     [Urlod] = print_rlodrstr,
     [Urstr] = print_rlodrstr,
+    [Umov]  = print_mov,
     [Urpar] = print_rpar,
     [Uldc]  = print_ldc,
     [Urldc] = print_rldc,
@@ -182,6 +203,9 @@ void disassemble(char *ustr) {
             case Send:
             default:                                                break;
         }
+    }
+    if (urec.hasattr) {
+        print_ucode_attr();
     }
     puts("");
 }
