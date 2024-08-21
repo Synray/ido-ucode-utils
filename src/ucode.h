@@ -209,7 +209,7 @@ union Valu {
   long long dwval;
 #endif
   struct {
-#ifdef _MIPSEL
+#ifdef LE
     int dwval_l, dwval_h;
 #else /* _MIPSEB */
     int dwval_h, dwval_l;
@@ -307,7 +307,7 @@ struct Bcrec   {
                     } dwbnds;
 #endif
                   struct {
-#ifdef _MIPSEL
+#ifdef LE
                     int lbound_l, lbound_h;
                     int hbound_l, hbound_h;
 #else        /* _MIPSEB */

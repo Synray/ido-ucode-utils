@@ -106,7 +106,7 @@ void uputinitfd(int fd) {
 /*
 00486880 uwrite
 */
-void uputint(int value) {
+void uputint(int value, bool swap) {
     if (uputfd < 0) {
         fprintf(stderr, "uput: output file not initialized\n");
         fflush(stderr);
@@ -119,6 +119,13 @@ void uputint(int value) {
         }
         uputpos = 0;
     }
+
+#ifdef LE
+    // Convert back to big endian, except strings
+    if (swap) {
+        value = swap_word(value);
+    }
+#endif
     uputbuf[uputpos++] = value;
 }
 
@@ -205,7 +212,7 @@ void ugetbufinit(int *buf, int len_bytes) {
 */
 int ugetint(bool swap) {
     int nread;
-    int out;
+    int in;
 
     if (ugetfd < 0) {
         fprintf(stderr, "uget: input file not initialized\n");
@@ -237,14 +244,14 @@ int ugetint(bool swap) {
         ugetpos = 0;
     }
 
-    // Most data should be converted to little endian, except for strings
-    out = ugetbufp[ugetpos++];
+    in = ugetbufp[ugetpos++];
 #ifdef LE
+    // Most data should be converted to little endian, except for strings
     if (swap) {
-        out = swap_word(out);
+        in = swap_word(in);
     }
 #endif
-    return out;
+    return in;
 }
 
 /*
@@ -253,10 +260,10 @@ int ugetint(bool swap) {
 int ugeteof(void) {
     ugetint(true);
     if (ugetbuflen == 0) {
-        return 1;
+        return true;
     } else {
         ugetpos--;
-        return 0;
+        return false;
     }
 }
 

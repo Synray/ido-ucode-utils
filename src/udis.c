@@ -6,6 +6,7 @@
 #include "common.h"
 #include "libu.h"
 #include "print_data.h"
+#include "orig_format.h"
 
 char *ustrptr;
 union Bcode u;
@@ -213,7 +214,7 @@ void disassemble(char *ustr) {
 void read_ucode() {
     do {
         readuinstr(&u, ustrptr);
-        disassemble(ustrptr);
+        disassemble_orig_format(ustrptr);
     } while (OPC != Ueof);
 }
 

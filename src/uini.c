@@ -8,7 +8,6 @@ struct UiniShared {
     Uopcode op;
     int fmt_index;
 };
-struct utabrec utab[0x9C];
 
 /* inner function
  * 00480964 uini

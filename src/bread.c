@@ -164,7 +164,7 @@ void readuinstr(union Bcode *bcode, char *ustr) {
         bcode->intarray[instlength + 1] = ugetint(true);
          
 #if 0
-        printf("- const: %d %d ", bcode->intarray[instlength], bcode->intarray[instlength + 1]);
+        printf("- const: %d %d \n", bcode->intarray[instlength], bcode->intarray[instlength + 1]);
 #endif
          
         if (((1 << uinstr->Dtype) & ((1 << Mdt) | (1 << Qdt) | (1 << Rdt) | (1 << Sdt) | (1 << Xdt))) || uinstr->Opc == Ucomm) {
@@ -204,7 +204,6 @@ void readuinstr(union Bcode *bcode, char *ustr) {
         uinstr->Uopcde.uiequ1.uop2.uxjp.dwbnds.hbound = ((long long)uinstr->Uopcde.uiequ1.uop2.uxjp.swbnds.hbound_h << 32) |
                                                                     uinstr->Uopcde.uiequ1.uop2.uxjp.swbnds.hbound_l;
     }
-
 }
 
 
