@@ -158,11 +158,17 @@ void readuinstr(union Bcode *bcode, char *ustr) {
         }
     }
 #endif
-
     if (urec.hasconst) {
-        bcode->intarray[instlength] = ugetint(true);
-        bcode->intarray[instlength + 1] = ugetint(true);
-         
+        int first = instlength;
+        int second = instlength + 1;
+        // 64 bit constant
+        if (uinstr->Dtype == Idt || uinstr->Dtype == Kdt) {
+            first = instlength + 1;
+            second = instlength;
+        }
+
+        bcode->intarray[first] = ugetint(true);
+        bcode->intarray[second] = ugetint(true);
 #if 0
         printf("- const: %d %d \n", bcode->intarray[instlength], bcode->intarray[instlength + 1]);
 #endif
@@ -198,11 +204,11 @@ void readuinstr(union Bcode *bcode, char *ustr) {
 #endif
 
     // swap 64 bit field again
-    if (instlength == 8) {
-        uinstr->Uopcde.uiequ1.uop2.uxjp.dwbnds.lbound = ((long long)uinstr->Uopcde.uiequ1.uop2.uxjp.swbnds.lbound_h << 32) |
-                                                                    uinstr->Uopcde.uiequ1.uop2.uxjp.swbnds.lbound_l;
-        uinstr->Uopcde.uiequ1.uop2.uxjp.dwbnds.hbound = ((long long)uinstr->Uopcde.uiequ1.uop2.uxjp.swbnds.hbound_h << 32) |
-                                                                    uinstr->Uopcde.uiequ1.uop2.uxjp.swbnds.hbound_l;
+    if (uinstr->Opc == Uxjp) {
+        uinstr->Uopcde.uiequ1.uop2.uxjp.dwbnds.lbound = ((long long)uinstr->Uopcde.uiequ1.uop2.uxjp.swbnds.lbound_l << 32) |
+                                                                    uinstr->Uopcde.uiequ1.uop2.uxjp.swbnds.lbound_h;
+        uinstr->Uopcde.uiequ1.uop2.uxjp.dwbnds.hbound = ((long long)uinstr->Uopcde.uiequ1.uop2.uxjp.swbnds.hbound_l << 32) |
+                                                                    uinstr->Uopcde.uiequ1.uop2.uxjp.swbnds.hbound_h;
     }
 }
 

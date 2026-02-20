@@ -160,11 +160,9 @@ void disassemble(char *ustr) {
     printf("%.4s ", urec.opcname);
 
     // handle unique opcodes, usually just to print the right field as a register
-    if (print_function[OPC] != NULL) {
-        if (print_function[OPC]()) {
-            puts("");
-            return;
-        }
+    if (print_function[OPC] && print_function[OPC]()) {
+        puts("");
+        return;
     }
 
     // default output, print field by field
@@ -173,15 +171,15 @@ void disassemble(char *ustr) {
         switch (urec.format[i]) {
             case Sdtype: print_dtype(DTYPE);                        break;
             case Smtype: hasMemType = true; print_mtype(MTYPE);     break;
-            case Sdtype2: print_dtype(DTYPE2);      break;
+            case Sdtype2: print_dtype(DTYPE2);                      break;
             case Sdtypenum: printf("dtnum %d ", DTYPE);             break;
 
-            case Slexlev: print_lexlev(LEXLEV); break;
+            case Slexlev: print_lexlev(LEXLEV);                     break;
 
             case Slabel0: printf("lab0 %d ", IONE);                 break;
             case Slabel1: printf("lab1 %d ", IONE);                 break;
             case Sblockno: print_block(IONE);                       break;
-            case Ssomenumber: print_ione(IONE);   break;
+            case Ssomenumber: print_ione(IONE);                     break;
 
             case Spop: printf("pop %u ", POP);                      break;
             case Spush: printf("push %u ", PUSH);                   break;

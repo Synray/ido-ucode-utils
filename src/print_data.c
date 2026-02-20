@@ -203,10 +203,9 @@ void print_escaped_string(int length, char *str) {
             case '\?': printf("\\\?"); break;
             case '\'': printf("\\\'"); break;
             case '\"': printf("\\\""); break;
+            case '\0': printf("\\0");  break;
 
-            case '\0': return; // handle nul?
-
-            default:   printf("%c", str[i]); break;
+            default: putchar(str[i]);  break;
         }
     }
 }
