@@ -212,7 +212,7 @@ void disassemble(char *ustr) {
 void read_ucode() {
     do {
         readuinstr(&u, ustrptr);
-        disassemble_orig_format(ustrptr);
+        disassemble(ustrptr);
     } while (OPC != Ueof);
 }
 
